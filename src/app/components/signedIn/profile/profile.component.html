@@ -1,0 +1,31 @@
+
+<!-- TODO: DARLE UNA VUELTA A QUE MOSTRAR Y QUE PODER HACER... -->
+<div class="container">
+  <div class="m-5 md-m-3">
+    <h1>{{profileInfo.username}}</h1>
+    <h4>About you:</h4>
+    <p>{{profileInfo.description}}</p>
+    <p>Member since: {{profileInfo.memberSince}}</p>
+    <button *ngIf="ownProfile" type="button" class="btn btn-secondary" routerLink="/add">Edit profile</button>
+  </div>
+  <div class="container" *ngIf="!loading; else loadingTemplate">
+    <div *ngIf="notes; else anyNotesYet" class="container notes minh">
+      <div *ngFor="let note of notes" class="note m-4 p-3 rounded minh d-flex flex-column justify-content-between">
+        <div>
+          <div class="d-flex inline justify-content-between align-items-center">
+            <h5 class="card-title">{{ note.title }}</h5>
+            <a routerLink="/profile/{{note.user}}" class="card-link">{{ note.user }}</a>
+          </div>
+          <h6 class="card-subtitle mb-2 text-body-secondary"> {{ note.updatedAt }} </h6>
+          <p class="card-text">{{ note.description }}</p>
+        </div>
+      </div>
+    </div>
+    <ng-template #anyNotesYet >
+      <p class="m-4 p-3">You don't have any notes yet...</p>
+    </ng-template>
+  </div>
+  <ng-template  #loadingTemplate>
+    <p class="m-4 p-3">Loading...</p>
+  </ng-template>
+</div>
