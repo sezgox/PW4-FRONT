@@ -48,4 +48,16 @@ export class RestService {
     })
   }
 
+  put(path: string, body: any, headers?:HttpHeaders):Promise<any>{
+    return new Promise((resolve) => {
+      this.http.put(path,body,{headers}).subscribe({
+        next: (result) => {
+          resolve(result);
+        }, error: (err) => {
+          resolve(false)
+        }
+      })
+    })
+  }
+
 }

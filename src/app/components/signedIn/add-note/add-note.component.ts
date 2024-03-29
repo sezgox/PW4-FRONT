@@ -44,7 +44,11 @@ export class AddNoteComponent {
 
   async addNote(){
     if(!this.addForm.valid){
-      alert('You must fill al the fields')
+      this.msg = 'Rellena todos los campos correctamente!! >:(';
+      this.showMsg = true;
+      setTimeout( () => {
+        this.showMsg = false;
+      },2000)
     }else{
       this.note = {
         title: this.addForm.value.title,
@@ -52,11 +56,15 @@ export class AddNoteComponent {
         showAll: this.addForm.value.showAll
       }
       const result = await this.notesService.addNote(this.note);
-      if (result == false){
-        this.toastr.show('Hubo un error al intentar crear la nota')
-      }else{
-        this.toastr.show(result.msg)
+      if(result){
+        this.toastr.show('Note created')
         this.router.navigate(['/notes'])
+      }else{
+        this.showMsg = true;
+        this.msg = 'Unable to create note, try again later :('
+        setTimeout( () => {
+          this.showMsg = false
+        },2000)
       }
     }
   }

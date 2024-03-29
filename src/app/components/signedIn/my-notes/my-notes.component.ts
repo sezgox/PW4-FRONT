@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { format } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
+import { Note } from 'src/app/interfaces/note';
 import { UsersService } from 'src/app/services/users.service';
 import { NotesService } from '../../../services/notes.service';
 
@@ -22,21 +23,21 @@ export class MyNotesComponent {
   }
 
   ngOnInit():void{
-    try {
-      const decodedToken: any = jwtDecode(localStorage.getItem('AUTH_TOKEN'));
-      const username = decodedToken.username;
-      this.filter = {
-        username: username
-      }
-    } catch (error) {
-      console.log(error)
+    const decodedToken: any = jwtDecode(localStorage.getItem('AUTH_TOKEN'));
+    const username = decodedToken.username;
+    this.filter = {
+      username: username
     }
-    this.getMyNotes(this.filter);
+    this.getMyNotes(this.filter)
   }
 
   async getMyNotes(filter){
-    const notes = await this.notesService.getNotes(filter);
-    if(typeof(notes) !== 'boolean'){
+    const result = await this.notesService.getNotes(filter);
+    if(result === false){
+      this.toastr.show('No fue posble recuperar las notas')
+      this.loading = false;
+    }else{
+      const notes = result as Note[];
       if(notes.length > 0){
         this.notes=[];
         notes.forEach(note => {
@@ -45,8 +46,7 @@ export class MyNotesComponent {
         });
       }
     }
-    console.log(typeof(notes))
-      this.loading = false;
+    this.loading = false;
   }
 
   formatDate(stringDate){

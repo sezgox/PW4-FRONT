@@ -71,8 +71,9 @@ export class RegisterComponent implements OnInit{
     this.checkPasswords();
   }
 
-  submit() {
+  async submit() {
     if (this.invalid.confirmPassword || this.invalid.password || this.invalid.username) {
+      //FAKE TOASTR 
       this.invalid.register = true;
       this.helperMsg.register = 'You must fill up all the fields correctly';
       setTimeout(() => {
@@ -83,20 +84,18 @@ export class RegisterComponent implements OnInit{
         username: this.username.value,
         password: this.password.value
       }
-      this.usersService.register(user).subscribe({
-        next: (v) => {
-          this.toastr.show(v.msg);
+      const result = await this.usersService.register(user)
+      if(result != false){
+          this.toastr.show('User created :)');
           this.router.navigate(['/login'])
-        },
-        error: (e) => {
-          console.log(e)
-          this.helperMsg.register = e.error.msg;
-          this.invalid.register = true;
-          setTimeout(() => {
-            this.invalid.register = false
-          },1000)
-        }
-      })
+          return
+      }
+      //FAKE TOASTR
+      this.helperMsg.register = 'User not created :(';
+      this.invalid.register = true;
+      setTimeout(() => {
+        this.invalid.register = false
+      },1000)
     }
   }
 
@@ -126,7 +125,6 @@ export class RegisterComponent implements OnInit{
     } else {
       const username = this.regForm.value.username;
       const exists = await this.usersService.checkUsername(username);
-      console.log(exists)
       if (exists) {
         this.helperMsg.username = 'Username already in use';
         this.invalid.username = true;

@@ -6,7 +6,7 @@
     <h4>About you:</h4>
     <p>{{profileInfo.description}}</p>
     <p>Member since: {{profileInfo.memberSince}}</p>
-    <button *ngIf="ownProfile" type="button" class="btn btn-secondary" routerLink="/add">Edit profile</button>
+    <button *ngIf="ownProfile" type="button" class="btn btn-secondary" routerLink="edit">Edit profile</button>
   </div>
   <div class="container" *ngIf="!loading; else loadingTemplate">
     <div *ngIf="notes; else anyNotesYet" class="container notes minh">

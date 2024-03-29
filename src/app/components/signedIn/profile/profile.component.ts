@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
 import { NotesService } from 'src/app/services/notes.service';
@@ -34,7 +35,8 @@ export class ProfileComponent {
         if (this.username !== newUsername) {
           this.username = newUsername;
           this.filter.username = this.username;
-          this.ownProfile = this.username == localStorage.getItem('USERNAME');
+          const decodedToken: any = jwtDecode(localStorage.getItem('AUTH_TOKEN'));
+          this.ownProfile = this.username == decodedToken.username;
         }
         this.loadProfile();
       }
@@ -43,7 +45,7 @@ export class ProfileComponent {
 
   private async loadProfile() {
     const profile = await this.userProfile.getProfile(this.username)
-    if(profile == false){
+    if(profile === false){
       this.router.navigate(['/feed']);
       return
     }
@@ -51,15 +53,16 @@ export class ProfileComponent {
     this.profileInfo.description = profile.description ? profile.description : 'Nothing yet...';
     this.profileInfo.memberSince = profile.createdAt;
     const result = await this.notesService.getNotes(this.filter);
-    if(result == false){
-      return
-    }
-    const notes = result as Note[];
-    if(notes.length > 0){
-      this.notes = [];
-      notes.forEach(note => {
-        this.notes.push(note);
-      });
+    if(result === false){
+      this.toastr.show('No fue posble recuperar las notas')
+    }else{
+      const notes = result as Note[];
+      if(notes.length > 0){
+        this.notes = [];
+        notes.forEach(note => {
+          this.notes.push(note);
+        });
+      }
     }
     this.loading = false;
   }

@@ -52,31 +52,27 @@ export class LoginComponent {
   ngOnInit(){
   }
 
-  submit(){
+  async submit(){
     if (this.logForm.valid){
       const user = {
         username: this.username.value,
         password: this.password.value
       }
-      this.usersService.login(user).subscribe({
-        next:(token) => {
-          localStorage.setItem('AUTH_TOKEN',token);
-          localStorage.setItem('USERNAME',user.username);
-          this.router.navigate(['/feed']);
-          this.menuService.showNav();
-          this.menuService.isDesktop();
-        },
-        error:(e) => {
-          if(e.status==401){
-            this.showUpMsg = true;
-            this.msg = 'Usurname or password invalid';
-            setTimeout(()=>{
-              this.showUpMsg = false;
-            },1000)
-            this.logForm.reset();
-          }
-        }
-      })
+      const result = await this.usersService.login(user);
+      if(result == false){
+        this.showUpMsg = true;
+        this.msg = 'Usurname or password invalid';
+        setTimeout(()=>{
+          this.showUpMsg = false;
+        },1000)
+        this.logForm.reset();
+        return
+      }
+      const token = result;
+      localStorage.setItem('AUTH_TOKEN',token);
+      this.router.navigate(['/feed']);
+      this.menuService.showNav();
+      this.menuService.isDesktop();
     }else{
       this.showUpMsg = true;
       this.msg = 'Enter your username and password';

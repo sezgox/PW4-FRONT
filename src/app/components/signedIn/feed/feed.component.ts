@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { format } from 'date-fns';
+import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
 import { NotesService } from '../../../services/notes.service';
 
@@ -19,7 +20,7 @@ export class FeedComponent {
   username: string;
   date;
 
-  constructor(private notesService: NotesService){
+  constructor(private notesService: NotesService,private toastr: ToastrService){
 
   }
 
@@ -36,8 +37,8 @@ export class FeedComponent {
   async getFeedNotes(filter){
     this.loading = true;
     const result = await this.notesService.getNotes(filter);
-    if(result == false){
-      return
+    if(result === false){
+      this.toastr.show('No fue posbile recuperar las notas')
     }else{
       this.notes = [];
       const notes = result as Note[];

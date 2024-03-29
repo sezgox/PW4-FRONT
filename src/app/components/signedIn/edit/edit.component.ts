@@ -59,16 +59,14 @@ export class EditComponent {
       description: this.editForm.value.description,
       showAll: this.editForm.value.showAll
     }
-    this.notesService.editNote(this.id,editedNote).subscribe({
-      next: (result) => {
-        this.toastr.show(result.msg)
-        this.router.navigate(['/notes'])
-      },
-      error: (e) => {
-        console.log(e)
-        this.router.navigate(['/notes'])
-      }
-    })
+    const result = this.notesService.editNote(this.id,editedNote);
+    if(result){
+      this.toastr.show('Note edited')
+      this.router.navigate(['/notes'])
+    }else{
+      this.toastr.show('Unable to edit note, try again later :(')
+      this.router.navigate(['/notes'])
+    }
   }
 
 }

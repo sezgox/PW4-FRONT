@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -7,6 +7,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { AddNoteComponent } from './components/signedIn/add-note/add-note.component';
+import { EditProfileComponent } from './components/signedIn/edit-profile/edit-profile.component';
 import { EditComponent } from './components/signedIn/edit/edit.component';
 import { FeedComponent } from './components/signedIn/feed/feed.component';
 import { MyNotesComponent } from './components/signedIn/my-notes/my-notes.component';
@@ -14,6 +15,7 @@ import { NavbarComponent } from './components/signedIn/navbar/navbar.component';
 import { ProfileComponent } from './components/signedIn/profile/profile.component';
 import { LoginComponent } from './components/signedOut/login/login.component';
 import { RegisterComponent } from './components/signedOut/register/register.component';
+import { AuthInterceptor } from './services/http-interceptor';
 
 
 @NgModule({
@@ -27,6 +29,7 @@ import { RegisterComponent } from './components/signedOut/register/register.comp
     ProfileComponent,
     AddNoteComponent,
     FeedComponent,
+    EditProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -42,6 +45,7 @@ import { RegisterComponent } from './components/signedOut/register/register.comp
     BrowserAnimationsModule,
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })
