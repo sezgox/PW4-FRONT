@@ -16,6 +16,7 @@ import { ProfileComponent } from './components/signedIn/profile/profile.componen
 import { LoginComponent } from './components/signedOut/login/login.component';
 import { RegisterComponent } from './components/signedOut/register/register.component';
 import { AuthInterceptor } from './services/http-interceptor';
+import { NoteComponent } from './components/signedIn/note/note.component';
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import { AuthInterceptor } from './services/http-interceptor';
     ProfileComponent,
     AddNoteComponent,
     FeedComponent,
-    EditProfileComponent
+    EditProfileComponent,
+    NoteComponent
   ],
   imports: [
     BrowserModule,

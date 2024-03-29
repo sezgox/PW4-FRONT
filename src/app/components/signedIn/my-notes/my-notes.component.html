@@ -3,41 +3,26 @@
 <div class="container">
 
   <h1 class="m-5">My Notes</h1>
+
   <div class="container" *ngIf="!loading; else loadingTemplate">
+
     <div class="container notes">
+
       <button class="m-4 p-3 rounded btn btn-card minh" routerLink="add">
         <div class="card-body ">
           <img src="../../../../assets/icons/add.svg" alt="" style="max-width: 5vw;">
         </div>
       </button>
-      <div *ngFor="let note of notes" class="note m-4 p-3 rounded minh d-flex flex-column justify-content-between">
-        <div>
-          <div class="d-flex inline justify-content-between align-items-center">
-            <h5 class="card-title">{{ note.title }}</h5>
-            <a routerLink="/profile/{{note.user}}" class="card-link">{{ note.user }}</a>
-          </div>
-          <h6 class="card-subtitle mb-2 text-body-secondary"> {{ note.updatedAt }} </h6>
-          <p class="card-text">{{ note.description }}</p>
-        </div>
 
-      <div class="dropdown ms-auto">
-        <button class="btn btn-primary " type="button" data-bs-toggle="dropdown" aria-expanded="false">
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots-vertical" viewBox="0 0 16 16">
-            <path d="M9.5 13a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0m0-5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
-          </svg>
-        </button>
-        <ul class="dropdown-menu ">
-          <li><a class="dropdown-item" routerLink="edit/{{note.id}}">Edit</a></li>
-          <li><hr class="dropdown-divider"></li>
-          <li><a class="dropdown-item" (click)="removeNote(note.id)">Delete</a></li>
-        </ul>
+      <div *ngFor="let note of notes" >
+        <app-note [info]="note"></app-note>
       </div>
-      </div>
-
     </div>
 
   </div>
+
   <ng-template  #loadingTemplate>
     <p>Loading...</p>
   </ng-template>
+  
 </div>

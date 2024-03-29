@@ -26,7 +26,6 @@ export class NotesService {
         queryParams += `${key}=${filter[key]}&`;
       }
     });
-  
     // Eliminamos el último '&' si existe
     if (queryParams.length > 0) {
       queryParams = queryParams.slice(0, -1);
