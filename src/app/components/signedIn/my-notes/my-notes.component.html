@@ -13,9 +13,9 @@
           <img src="../../../../assets/icons/add.svg" alt="" style="max-width: 5vw;">
         </div>
       </button>
-
+      
       <div *ngFor="let note of notes" >
-        <app-note [info]="note"></app-note>
+        <app-note (noteRemoved)="removeNote($event)" [info]="note"></app-note>
       </div>
     </div>
 
@@ -24,5 +24,5 @@
   <ng-template  #loadingTemplate>
     <p>Loading...</p>
   </ng-template>
-  
+
 </div>

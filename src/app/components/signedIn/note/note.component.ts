@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
@@ -13,8 +13,11 @@ export class NoteComponent implements OnInit{
 
   constructor(private notesService: NotesService, private toastr: ToastrService){}
 
-  @Input() info: Note;
+  @Input({required: true}) info: Note;
+
   ownProfile: boolean;
+
+  @Output() noteRemoved = new EventEmitter<string>();
 
   ngOnInit():void{
     const decodedToken: any = jwtDecode(localStorage.getItem('AUTH_TOKEN'));
@@ -25,6 +28,7 @@ export class NoteComponent implements OnInit{
     this.notesService.removeNote(id).subscribe({
       next:(result) => {
         this.toastr.show(result.msg);
+        this.noteRemoved.emit(id);
       },error:(err) => {
         this.toastr.show(err);
       }

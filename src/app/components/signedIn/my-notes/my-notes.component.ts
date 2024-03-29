@@ -18,9 +18,7 @@ export class MyNotesComponent {
   notes: any[];
   loading: boolean = true;
 
-  constructor(private notesService: NotesService, private router: Router, private profileService: UsersService, private toastr: ToastrService){
-
-  }
+  constructor(private notesService: NotesService, private router: Router, private profileService: UsersService, private toastr: ToastrService){}
 
   ngOnInit():void{
     const decodedToken: any = jwtDecode(localStorage.getItem('AUTH_TOKEN'));
@@ -56,16 +54,7 @@ export class MyNotesComponent {
   }
 
   removeNote(id: string){
-    this.notesService.removeNote(id).subscribe({
-      next:(result) => {
-        this.toastr.show(result.msg);
-        this.getMyNotes(this.filter);
-        this.router.navigate(['/notes'])
-      },error:(err) => {
-        this.toastr.show(err);
-      }
-    })
+    this.notes = this.notes.filter(note => note.id !== id)
   }
-
 
 }
