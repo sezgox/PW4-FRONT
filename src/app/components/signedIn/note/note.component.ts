@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { format } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
@@ -33,6 +34,12 @@ export class NoteComponent implements OnInit{
         this.toastr.show(err);
       }
     })
+  }
+
+  formatDate(stringDate){
+    const date = new Date(stringDate);
+    const formattedDate = format(date, 'yyyy-MM-dd HH:mm');
+    return formattedDate;
   }
 
 }

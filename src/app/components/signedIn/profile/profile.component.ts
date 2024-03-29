@@ -56,15 +56,13 @@ export class ProfileComponent {
     if(result === false){
       this.toastr.show('No fue posble recuperar las notas')
     }else{
-      const notes = result as Note[];
-      if(notes.length > 0){
-        this.notes = [];
-        notes.forEach(note => {
-          this.notes.push(note);
-        });
-      }
+      this.notes = result as Note[];
     }
     this.loading = false;
+  }
+
+  removeNote(id: string){
+    this.notes = this.notes.filter(note => note.id !== id)
   }
 
 }

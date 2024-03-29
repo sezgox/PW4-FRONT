@@ -4,7 +4,7 @@
           <h5 class="card-title">{{ info.title }}</h5>
           <a routerLink="/profile/{{info.user}}" class="card-link">{{ info.user }}</a>
         </div>
-        <h6 class="card-subtitle mb-2 text-body-secondary"> {{ info.updatedAt }} </h6>
+        <h6 class="card-subtitle mb-2 text-body-secondary"> {{ info.updatedAt | date:'dd/MM/YYYY HH:mm'}} </h6>
         <p class="card-text">{{ info.description }}</p>
       </div>
     <div class="dropdown ms-auto" *ngIf="ownProfile">
@@ -14,7 +14,7 @@
             </svg>
         </button>
         <ul class="dropdown-menu ">
-            <li><a class="dropdown-item" routerLink="edit/{{info.id}}">Edit</a></li>
+            <li><a class="dropdown-item" routerLink="/notes/edit/{{info.id}}">Edit</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" (click)="removeNote(info.id)">Delete</a></li>
         </ul>

@@ -40,14 +40,13 @@ export class FeedComponent {
     if(result === false){
       this.toastr.show('No fue posbile recuperar las notas')
     }else{
-      this.notes = [];
-      const notes = result as Note[];
-      notes.forEach(note => {
-        this.notes.push(note);
-      });
-      this.loading =  false;
+      this.notes = result as Note[];
     }
-    
+    this.loading =  false;
+  }
+
+  removeNote(id: string){
+    this.notes = this.notes.filter(note => note.id !== id)
   }
 
   /* TODO: REVISAR ESTA VAINA XD */

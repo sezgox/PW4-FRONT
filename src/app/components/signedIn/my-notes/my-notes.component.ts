@@ -35,14 +35,7 @@ export class MyNotesComponent {
       this.toastr.show('No fue posble recuperar las notas')
       this.loading = false;
     }else{
-      const notes = result as Note[];
-      if(notes.length > 0){
-        this.notes=[];
-        notes.forEach(note => {
-          note.updatedAt = this.formatDate(note.updatedAt);
-          this.notes.push(note);
-        });
-      }
+      this.notes = result as Note[];
     }
     this.loading = false;
   }

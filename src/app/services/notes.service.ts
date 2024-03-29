@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -20,20 +20,23 @@ export class NotesService {
   edit: string = NOTES_ENDPOINT.edit;
 
   async getNotes(filter):Promise<Note[] | false>{
-    let queryParams = '';
+/*     let queryParams = '';
     Object.keys(filter).forEach(key => {
-      if (filter[key]) {
-        queryParams += `${key}=${filter[key]}&`;
-      }
+      
     });
-    // Eliminamos el último '&' si existe
     if (queryParams.length > 0) {
       queryParams = queryParams.slice(0, -1);
-    }
-    const query = '?'.concat(queryParams);
-    const path = this.url.concat(this.notes.concat(query));
+    } */
+    let params = new HttpParams()
+    Object.keys(filter).forEach(key => {
+      if (filter[key]) {
+        params = params.set(`${key}`,`${filter[key]}`)
+      }
+    });
+    /* const query = '?'.concat(queryParams); */
+    const path = this.url.concat(this.notes);
 
-    return await this.restService.get(path,);
+    return await this.restService.get(path,params);
   }
 
   async getNoteToEdit(id: string):Promise<Note | false>{

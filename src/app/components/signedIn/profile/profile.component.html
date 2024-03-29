@@ -5,20 +5,20 @@
     <h1>{{profileInfo.username}}</h1>
     <h4>About you:</h4>
     <p>{{profileInfo.description}}</p>
-    <p>Member since: {{profileInfo.memberSince}}</p>
+    <p>Member since: {{profileInfo.memberSince | date}}</p>
     <button *ngIf="ownProfile" type="button" class="btn btn-secondary" routerLink="edit">Edit profile</button>
   </div>
-  <div class="container" *ngIf="!loading; else loadingTemplate">
-    <div *ngIf="notes; else anyNotesYet" class="container notes minh">
-      <div *ngFor="let note of notes" >
-        <app-note [info]="note"></app-note>
-      </div>
+  @if(!loading){
+
+    <div class="container notes">
+      @for(note of notes; track note.id){
+        <app-note (noteRemoved)="removeNote($event)" [info]="note"></app-note>
+      }@empty {
+        <p class="m-4 p-3">No hay notas todavia...</p>
+      }
     </div>
-    <ng-template #anyNotesYet >
-      <p class="m-4 p-3">You don't have any notes yet...</p>
-    </ng-template>
-  </div>
-  <ng-template  #loadingTemplate>
-    <p class="m-4 p-3">Loading...</p>
-  </ng-template>
+
+  }@else {
+    <p class="m-4 p-3">Cargando...</p>
+  }
 </div>

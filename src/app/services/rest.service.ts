@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -12,9 +12,9 @@ export class RestService {
 
 /* TODO: CREAR RESTO DE PETICIONES */
 
-  get(path:string,headers?:HttpHeaders):Promise<any>{
+  get(path:string,params?:HttpParams,headers?:HttpHeaders):Promise<any>{
     return new Promise((resolve) => {
-      this.http.get(path,{headers}).subscribe({
+      this.http.get(path,{headers,params}).subscribe({
         next: (result) => {
           resolve(result);
         },

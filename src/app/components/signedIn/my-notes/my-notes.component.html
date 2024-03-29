@@ -4,7 +4,7 @@
 
   <h1 class="m-5">My Notes</h1>
 
-  <div class="container" *ngIf="!loading; else loadingTemplate">
+  @if(!loading){
 
     <div class="container notes">
 
@@ -13,16 +13,17 @@
           <img src="../../../../assets/icons/add.svg" alt="" style="max-width: 5vw;">
         </div>
       </button>
-      
-      <div *ngFor="let note of notes" >
+    
+      @for(note of notes; track note.id){
         <app-note (noteRemoved)="removeNote($event)" [info]="note"></app-note>
-      </div>
+      }
+
     </div>
 
-  </div>
+  }@else{
 
-  <ng-template  #loadingTemplate>
-    <p>Loading...</p>
-  </ng-template>
+    <p class="m-4 p-3">Cargando...</p>
+    
+  }
 
 </div>

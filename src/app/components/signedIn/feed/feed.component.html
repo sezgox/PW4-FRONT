@@ -35,17 +35,18 @@
       </div>
     </div>
 
-  <div *ngIf="!loading; else loadingTemplate" class="container" >
-    <div *ngIf="notes.length > 0; else anyNotesYet" class="container notes">
-      <div *ngFor="let note of notes" >
-        <app-note [info]="note"></app-note>
-      </div>
+
+  @if(!loading){
+
+    <div class="container notes">
+      @for(note of notes; track note.id){
+        <app-note (noteRemoved)="removeNote($event)" [info]="note"></app-note>
+      }@empty {
+        <p class="m-4 p-3">No hay notas todavia...</p>
+      }
     </div>
-    <ng-template #anyNotesYet>
-      <p class="m-4 p-3">No hay notas todavia...</p>
-    </ng-template>
-  </div>
-  <ng-template #loadingTemplate>
-    <p>Loading...</p>
-  </ng-template>
+
+  }@else {
+    <p class="m-4 p-3">Cargando...</p>
+  }
 </div>
