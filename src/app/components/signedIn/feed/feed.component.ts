@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { format } from 'date-fns';
 import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
 import { NotesService } from '../../../services/notes.service';
@@ -47,12 +46,5 @@ export class FeedComponent {
 
   removeNote(id: string){
     this.notes = this.notes.filter(note => note.id !== id)
-  }
-
-  /* TODO: REVISAR ESTA VAINA XD */
-  formatDate(stringDate){
-    const date = new Date(stringDate);
-    const formattedDate = format(date, 'yyyy-MM-dd HH:mm');
-    return formattedDate;
   }
 }

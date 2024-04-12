@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { format } from 'date-fns';
 import { jwtDecode } from 'jwt-decode';
 import { ToastrService } from 'ngx-toastr';
 import { Note } from 'src/app/interfaces/note';
@@ -38,12 +37,6 @@ export class MyNotesComponent {
       this.notes = result as Note[];
     }
     this.loading = false;
-  }
-
-  formatDate(stringDate){
-    const date = new Date(stringDate);
-    const formattedDate = format(date, 'yyyy-MM-dd HH:mm');
-    return formattedDate;
   }
 
   removeNote(id: string){
